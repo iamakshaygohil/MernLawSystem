@@ -8,20 +8,66 @@ const sectionRoute = require('./routes/section.route');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const mongoURI = process.env.MONGO_URI;
-const frontendURL = process.env.FRONT_END_URL
+const frontEndURL = process.env.FRONT_END_URL
+// Comprehensive CORS configuration for local development
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://localhost:3000',
+      'http://127.0.0.1:3000',
+      'http://localhost:5000',
+      'https://localhost:5000',
+      frontEndURL
+    ];
+    
+    // If no origin (like server-to-server calls), allow
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // Check if the origin is allowed
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS not allowed for origin: ${origin}`));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'Origin', 
+    'X-Requested-With', 
+    'Accept'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
 
 // Middleware
-app.use(cors());
-app.use(cors({ origin: frontendURL }));
-app.use(express.json()); // Replaces body-parser
+app.use(express.json());
+
 // Routes
 app.use('/auth', authRoutes);
-app.use('/', sectionRoute); // Ensure section.route.js handles '/' endpoints
+app.use('/', sectionRoute);
+
+// CORS preflight handler
+app.options('*', cors(corsOptions));
 
 // MongoDB Connection
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect(mongoURI, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error('MongoDB connection error:', err));
 
 // Start Server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app;
