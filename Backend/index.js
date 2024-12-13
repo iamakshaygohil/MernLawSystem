@@ -20,6 +20,10 @@ const corsOptions = {
       'http://127.0.0.1:3000',
       'http://localhost:5000',
       'https://localhost:5000',
+      'https://mern-law-system.vercel.app',
+      'https://mern-law-system-v1vv.vercel.app',
+      'http://mern-law-system.vercel.app',
+      'http://mern-law-system-v1vv.vercel.app',
       frontEndURL,
       backEndURL
     ];
