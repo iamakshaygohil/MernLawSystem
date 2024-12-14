@@ -15,17 +15,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     const allowedOrigins = [
-      'http://localhost:3000',
-      'https://localhost:3000',
-      'http://127.0.0.1:3000',
-      'http://localhost:5000',
-      'https://localhost:5000',
-      'https://mern-law-system.vercel.app',
-      'https://mern-law-system-v1vv.vercel.app',
-      'http://mern-law-system.vercel.app',
-      'http://mern-law-system-v1vv.vercel.app',
-      frontEndURL,
-      backEndURL
+      '*'
     ];
     
     // If no origin (like server-to-server calls), allow
