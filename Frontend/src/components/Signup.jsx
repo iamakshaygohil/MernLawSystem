@@ -36,11 +36,11 @@ const Signup = () => {
 
     try {
       // Send sign-up request to the server
-      await axios.post(apiURL +"/auth/signup", {
+      await axios.post(apiURL + "/auth/signup", {
         name,
         email,
         password,
-      });
+      }, { withCredentials: true });
       // Redirect to sign-in page after successful sign-up
       window.location.href = "/signin";
     } catch (error) {
