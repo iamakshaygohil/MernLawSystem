@@ -84,7 +84,8 @@ const frontEndURL = process.env.FRONT_END_URL;
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = [frontEndURL]; // Use only the specific frontend URL
+    const allowedOrigins = [frontEndURL, 'https://mern-law-system-v1vv-refk16s27-akshay-gohils-projects.vercel.app' // Include the specific project URL
+    ]; // Use only the specific frontend URL
 
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
